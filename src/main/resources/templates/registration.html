@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form th:action="@{/}" method="get">
+    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+</form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form autocomplete="off" action="#" th:action="@{/registration}"
+                  th:object="${user}" method="post" class="form-horizontal"
+                  role="form">
+                <h2>Registration Form</h2>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{role}"
+                               class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Role:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control" name="roles[0].id" th:required="true">
+                            <option value="">Select Role</option>
+                            <option th:each="role: ${role}" th:value="${role.id}" th:text="${role.role}">{{role.role}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label th:if="${#fields.hasErrors('region')}" th:errors="*{region}"
+                               class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Region:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control" name="region.id" th:required="true">
+                            <option value="">Select region</option>
+                            <option th:each="region: ${region}" th:value="${region.id}" th:text="${region.name}"></option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" th:field="*{name}" placeholder="Name"
+                               class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                               class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">LastName:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" th:field="*{lastName}"
+                               placeholder="Last Name" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label
+                                th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" th:field="*{email}" placeholder="Email"
+                               class="form-control"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label
+                                th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                class="validation-message"></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Password:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="password" id="password" onkeyup='check();' th:field="*{password}"
+                               placeholder="Password" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Confirm Password:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();'
+                                   placeholder="Password" class="form-control"/>
+                            <span id='message'></span>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    var check = function() {
+                        if (document.getElementById('password').value ==
+                            document.getElementById('confirm_password').value) {
+                            document.getElementById('message').style.color = 'green';
+                            document.getElementById('message').innerHTML = 'matching';
+//                                                        document.getElementById("set").style.display ="block";
+                            document.getElementById("set").style.visibility="visible";
+                        } else {
+                            document.getElementById('message').style.color = 'red';
+                            document.getElementById('message').innerHTML = 'not matching';
+//                                                        document.getElementById("set").style.display ="none";
+                            document.getElementById("set").style.visibility="hidden";
+                        }
+                    }
+                </script>
+
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <button id="set" style="visibility: hidden" type="submit" class="btn btn-primary btn-block">Register User</button>
+                    </div>
+                </div>
+
+                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="images/favicon.ico" type="image/ico"/>
+
+    <title>Web App</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet"/>
+    <!-- iCheck -->
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet"/>
+
+    <!-- bootstrap-progressbar -->
+    <link th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet"/>
+    <!-- JQVMap -->
+    <link th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet"/>
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet"/>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+
+        <!-- sidebar -->
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <!-- /sidebar -->
+
+        <!-- top navigation -->
+        <div th:replace="fragments/topnav :: topnav"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Dashboard
+                            <small>Welcome!</small>
+                        </h3>
+                    </div>
+
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">Go!</button>
+                                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row top_tiles">
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                            <div class="count"><span id="today_darta"></span>/<span th:text="${total_darta}"></span>
+                            </div>
+                            <h3>Darta data</h3>
+                            <p>Daily recorded</p>
+                        </div>
+                    </div>
+
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                            <div class="count"><span id="this_month_darta"></span>/<span
+                                    th:text="${total_darta}"></span></div>
+                            <h3>Darta data</h3>
+                            <p>Monthly Recorded</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                            <div class="count"><span id="today_chalani"></span>/<span th:text="${total_chalani}"></span>
+                            </div>
+                            <h3>Chalani data</h3>
+                            <p>Daily Recorded</p>
+                        </div>
+                    </div>
+                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="tile-stats">
+                            <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                            <div class="count"><span id="this_month_chalani"></span>/<span
+                                    th:text="${total_chalani}"></span></div>
+                            <h3>Chalani data</h3>
+                            <p>Monthly Recorded</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="row_title_manual" style="padding-left: 10px;">
+                        <h3>Graph(Office/Personal)
+                        </h3>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Darta
+                                    <small>office/person</small>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div id="dartaOP_pie" style="height:250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Chalani
+                                    <small>office/person</small>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div id="chalaniOP_pie" style="height:250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="row_title_manual" style="padding-left: 10px;">
+                        <h3>Graph Representation
+                        </h3>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Pie Area Chart
+                                    <small>Sessions</small>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div id="dartaChalani_pie" style="height:250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!-- /page content -->
+
+        </div>
+        <!-- footer content -->
+        <div th:replace="fragments/footer :: footer"></div>
+        <!-- /footer content -->
+    </div>
+
+
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    <!-- NProgress -->
+    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+    <!-- Chart.js -->
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <!-- gauge.js -->
+    <script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+    <!-- bootstrap-progressbar -->
+    <script th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+    <!-- Skycons -->
+    <script th:src="@{/vendors/skycons/skycons.js}"></script>
+    <!-- Flot -->
+    <script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+    <script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+    <!-- Flot plugins -->
+    <script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+    <script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+    <script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+    <!-- DateJS -->
+    <script th:src="@{/vendors/DateJS/build/date.js}"></script>
+    <!-- JQVMap -->
+    <script th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
+    <script th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
+    <script th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+    <script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+
+    <!-- ECharts -->
+    <script th:src="@{/vendors/echarts/dist/echarts.min.js}"></script>
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/js/custom.min.js}"></script>
+    <!-- Nepali date picker -->
+    <script th:src="@{/custom/nepaliDatepicker/nepali.datepicker.v2.2.min.js}"></script>
+
+    <script>
+        var nc = new NepaliDateConverter()
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        today = nc.ad2bs(today)
+        $.get('/dashboard/getDashboardData/' + today)
+            .done(function (data) {
+                if (data) {
+                    $("#today_darta").text(data.today_darta)
+                    $("#today_chalani").text(data.today_chalani)
+                    $("#this_month_darta").text(data.this_month_darta)
+                    $("#this_month_chalani").text(data.this_month_chalani)
+                }
+            });
+
+        $.get('/dashboard/getDartaChalaniCount').done(function (data) {
+
+            var myChart = echarts.init(document.getElementById('dartaChalani_pie'));
+            var total = data[0] + data[1];
+            var chalani_per = data[1];
+            var prastab_per = data[0];
+
+            var chalani_label = 'Chalani ' + chalani_per;
+            var prastab_label = 'Darta ' + prastab_per;
+
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: [prastab_label, chalani_label]
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        saveAsImage: {
+                            show: false,
+                            title: "Save Image"
+                        }
+                    }
+                },
+                calculable: true,
+                series: [{
+                    name: 'Darta Type',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '48%'],
+                    data: [{
+                        value: chalani_per,
+                        name: chalani_label
+                    }, {
+                        value: prastab_per,
+                        name: prastab_label
+                    }]
+                }]
+            };
+            myChart.setOption(option);
+        });
+    </script>
+
+    <script>
+        $.get('/dashboard/getDartaOPCount').done(function (data) {
+
+            var myChart = echarts.init(document.getElementById('dartaOP_pie'));
+
+            var total = data[0] + data[1];
+            var darta_office = data[1];
+            var darta_person = data[0];
+
+            var office_label = 'Office ' + darta_office;
+            var person_label = 'Person ' + darta_person;
+
+            var option1 = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: [person_label, office_label]
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        saveAsImage: {
+                            show: false,
+                            title: "Save Image"
+                        }
+                    }
+                },
+                calculable: true,
+                series: [{
+                    name: 'Records',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '48%'],
+                    data: [{
+                        value: darta_office,
+                        name: office_label
+                    }, {
+                        value: darta_person,
+                        name: person_label
+                    }]
+                }]
+            };
+            myChart.setOption(option1);
+        });
+    </script>
+
+    <script>
+        $.get('/dashboard/getChalaniOPCount').done(function (data) {
+
+            var myChart = echarts.init(document.getElementById('chalaniOP_pie'));
+
+            var total = data[0] + data[1];
+            var chalani_office = data[1];
+            var chalani_person = data[0];
+
+            var office_label = 'Office ' + chalani_office;
+            var person_label = 'Person ' + chalani_person;
+            var totalView = 'Total' + total;
+
+            var option3 = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: [person_label, office_label]
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        saveAsImage: {
+                            show: false,
+                            title: "Save Image"
+                        }
+                    }
+                },
+                calculable: true,
+                series: [{
+                    name: 'Records',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '48%'],
+                    data: [{
+                        value: chalani_office,
+                        name: office_label
+                    }, {
+                        value: chalani_person,
+                        name: person_label
+                    }]
+                }]
+            };
+            myChart.setOption(option3);
+        });
+    </script>
+
+</div>
+</body>
+</html>

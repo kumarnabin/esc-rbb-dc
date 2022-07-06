@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="images/favicon.ico" type="image/ico" />
+
+    <title>Web App</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet"/>
+    <!-- iCheck -->
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet"/>
+
+    <!-- bootstrap-progressbar -->
+    <link th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet"/>
+    <!-- JQVMap -->
+    <link th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet"/>
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet"/>
+
+    <!-- Nepali date picker -->
+    <link th:href="@{/vendors/nepali_date_picker/nepaliDatePicker.css}" rel="stylesheet"/>
+
+    <style>
+        .dater{
+            background-color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <!-- sidebar -->
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <!-- /sidebar -->
+
+        <!-- top navigation -->
+        <div th:replace="fragments/topnav :: topnav"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Chalani Form</h3>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div th:if="${success!=null}" class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong th:text="${success}"></strong>
+                </div>
+
+                <div th:if="${errormsg!=null}" class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong th:text="${errormsg}"></strong>
+                </div>
+
+                <div class="row" id="app">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Chalani record
+                                    <small>registration</small>
+                                </h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div style="font-size: 18px" >
+                                <p style="text-align: center; color: red; font-size: 20px">छनौट प्रकार चयन गर्नुहोस्</p>
+                                <p style="text-align: center; color: red; font-size: 20px">Select the Submission type</p>
+                                <div style="text-align: center">
+                                    <input type="radio" name="tab" value="igotnone" onclick="show1();" />
+                                    (कार्यालय)Office
+                                    <input type="radio" name="tab" value="igottwo" onclick="show2();" style="margin-left: 50px"/>
+                                    (व्यक्ति)Person
+                                </div>
+                            </div>
+
+                            <script>
+                                function show1(){
+                                    console.log("show1");
+                                    document.getElementById("checkOffice").style.display ="block";
+                                    document.getElementById("checkPerson").style.display ="none";
+                                }
+                                function show2(){
+                                    console.log("show2");
+                                    document.getElementById("checkPerson").style.display = "block";
+                                    document.getElementById("checkOffice").style.display = "none";
+                                }
+                            </script>
+
+                            <div id="checkOffice" style="display: none;" class="x_content">
+                                <br />
+                                <p style="font-size: 18px; text-align: center">तपाईं कार्यालय कोटि को छनौट गर्दै हुनुहुन्छ</p>
+                                <p style="font-size: 18px; text-align: center">You are selecting Office category</p>
+                                <form th:action="@{/create/chalani}" th:object="${chalani}" method="post" id="demo-form2" enctype="multipart/form-data"
+                                      data-parsley-validate class="form-horizontal form-label-left">
+
+                                    <!--chalani no field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="chalaniNumber">चलानि नं
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" th:field="*{chalaniNumber}" id="chalaniNumber" required="required" class="form-control col-md-7 col-xs-12"
+                                            />
+                                            <span th:if="${#fields.hasErrors('chalaniNumber')}">Darta no. must be numeric.</span>
+                                        </div>
+                                    </div>
+
+                                    <!--chalani date field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">चलानि मिति
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="controls">
+                                                <input type="text" th:field="*{chalaniDate}" required="required" class="form-control chalaniDate has-feedback-left" placeholder="दर्ता मिति" aria-describedby="inputSuccess2Status3"
+                                                />
+                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">साल
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{praSamWaChaNo}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--letter date field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">पत्रको मिति
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <!--<input th:field="*{letter_date}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">-->
+                                            <div class="controls">
+                                                <input type="text" th:field="*{letterDate}" required="required" class="form-control patraDate has-feedback-left" placeholder="पत्रको मिति" aria-describedby="inputSuccess2Status3"
+                                                />
+                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group" style="display: none;">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">recivType
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:type="hidden" name="recivType" th:value="0" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+
+                                    <!--office id field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="office">कार्यालय
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                            <select class="form-control" th:field="*{office}" th:required="true">
+                                                <option value="">Select Office</option>
+                                                <option th:each="o: ${offices}" th:value="${o.id}" th:text="${o.name}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!--subject field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">बिषय
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{subject}" required="required" id="birthday" class="date-picker form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--faat field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">फाँट</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{faat}" id="birthday" class="date-picker form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+
+                                    <!--chalani documents field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload images</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="file" th:field="*{file}" id="birthday" class="date-picker form-control col-md-7 col-xs-12" />
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                            <a class="btn btn-primary" th:href="@{/dashboard}">Cancel</a>
+                                            <button class="btn btn-primary" type="reset">Reset</button>
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <div id="checkPerson" style="display: none;" class="x_content">
+                                <br />
+                                <p style="font-size: 18px; text-align: center">तपाईं व्यक्ति कोटि को छनौट गर्दै हुनुहुन्छ</p>
+                                <p style="font-size: 18px; text-align: center">You are selecting person category</p>
+                                <form th:action="@{/create/chalani}" th:object="${chalani}" method="post" id="demo-form2" enctype="multipart/form-data"
+                                      data-parsley-validate class="form-horizontal form-label-left">
+
+                                    <!--chalani no field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="chalaniNumber">चलानि नं
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" th:field="*{chalaniNumber}" id="first-name" required="required" class="form-control col-md-7 col-xs-12"
+                                            />
+                                            <span th:if="${#fields.hasErrors('chalaniNumber')}">Darta no. must be numeric.</span>
+                                        </div>
+                                    </div>
+
+                                    <!--chalani date field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">चलानि मिति
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="controls">
+                                                <input type="text" th:field="*{chalaniDate}" required="required" class="form-control chalaniDate has-feedback-left" placeholder="दर्ता मिति" aria-describedby="inputSuccess2Status3"
+                                                />
+                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">साल
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{praSamWaChaNo}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--letter date field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">पत्रको मिति
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <!--<input th:field="*{letter_date}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">-->
+                                            <div class="controls">
+                                                <input type="text" th:field="*{letterDate}" required="required" class="form-control patraDate has-feedback-left" placeholder="पत्रको मिति" aria-describedby="inputSuccess2Status3"
+                                                />
+                                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group" style="display: none;">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">recivType
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:type="hidden" name="recivType" th:value="1" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group" style="display: none;">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">regionId
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:type="hidden" name="chalaniPerson.regionId" th:value="${regionId}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">First Name
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.firstName}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Middle Name
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.middleName}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Last Name
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.lastName}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Address
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.address}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Contact
+                                            <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.contactNo}" required="required" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.email}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--rpasamwacha no field-->
+                                    <div class="form-group">
+                                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Other Detail
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{chalaniPerson.otherDetail}" id="middle-name" class="form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--subject field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">बिषय
+                                            <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{subject}" required="required" id="birthday" class="date-picker form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <!--faat field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">फाँट</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input th:field="*{faat}" id="birthday" class="date-picker form-control col-md-7 col-xs-12" type="text" />
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <!--chalani documents field-->
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload images</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="file" th:field="*{file}" id="birthday" class="date-picker form-control col-md-7 col-xs-12" />
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                            <a class="btn btn-primary" th:href="@{/dashboard}">Cancel</a>
+                                            <button class="btn btn-primary" type="reset">Reset</button>
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <div th:replace="fragments/footer :: footer"></div>
+        <!-- /footer content -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+<!-- NProgress -->
+<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+<!-- Chart.js -->
+<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+<!-- gauge.js -->
+<script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+<!-- bootstrap-progressbar -->
+<script th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+<!-- Skycons -->
+<script th:src="@{/vendors/skycons/skycons.js}"></script>
+<!-- Flot -->
+<script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+<!-- Flot plugins -->
+<script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+<script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+<script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+<!-- DateJS -->
+<script th:src="@{/vendors/DateJS/build/date.js}"></script>
+<!-- JQVMap -->
+<script th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
+<script th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
+<script th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
+<!-- bootstrap-daterangepicker -->
+<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+<!-- Parsley -->
+<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+<!-- Custom Theme Scripts -->
+<script th:src="@{/js/custom.min.js}"></script>
+
+<!-- Nepali date picker -->
+<script th:src="@{/vendors/nepali_date_picker/jquery.nepaliDatePicker.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".chalaniDate").nepaliDatePicker({
+            dateFormat: "%y-%m-%d",
+            closeOnDateSelect: true
+        });
+        $(".patraDate").nepaliDatePicker({
+            dateFormat: "%y-%m-%d",
+            closeOnDateSelect: true
+        });
+//        $(".chalaniDate").on("dateSelect", function (event) {
+//            console.log(event.datePickerData);
+//            this.value = event.datePickerData.bsYear + '-' + (event.datePickerData.bsMonth < 10 ? '0' + event.datePickerData.bsMonth : event.datePickerData.bsMonth) + '-' + (event.datePickerData.bsDate < 10 ? '0' + event.datePickerData.bsDate : event.datePickerData.bsDate);
+//        });
+//        $(".patraDate").on("dateSelect", function (event) {
+//            console.log(event.datePickerData);
+//            this.value = event.datePickerData.bsYear + '-' + (event.datePickerData.bsMonth < 10 ? '0' + event.datePickerData.bsMonth : event.datePickerData.bsMonth) + '-' + (event.datePickerData.bsDate < 10 ? '0' + event.datePickerData.bsDate : event.datePickerData.bsDate);
+//        });
+
+    });
+</script>
+
+</body>
+</html>

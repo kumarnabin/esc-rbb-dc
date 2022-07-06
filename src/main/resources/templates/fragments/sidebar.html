@@ -1,0 +1,177 @@
+<!-- sidebar menu -->
+<div th:fragment="sidebar" >
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+                <a href="#" class="site_title"><span>Web App</span></a>
+                <!--<img th:src="@{/uploads/dartachalanilogo.png}" alt ="Darta Chalani" style="font-size: 26px" height=100% width=100%>-->
+                <!--<img th:src="@{/uploads/dartachalanilogotransparent1.png}" alt ="Darta Chalani" style="font-size: 26px" height=100% width=100%>-->
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+                <div class="profile_pic">
+                    <img src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png" alt="..." class="img-circle profile_img">
+                </div>
+                <div class="profile_info">
+                    <span>Welcome,</span>
+                    <h2 th:text="${userName}"></h2>
+                </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+                    <h3>General</h3>
+                    <ul class="nav side-menu">
+                        <li>
+                            <a th:href="@{~/dashboard}"><i class="fa fa-dashboard"></i>Dashboard</a>                            
+                        </li>
+
+                        <!--User menu-->
+                        <li sec:authorize="hasAuthority('ADMIN')">
+                            <a><i class="fa fa-users"></i> User <span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/admin/list}">User List</a></li>
+                                <li><a th:href="@{~/admin/create}">Add User</a></li>
+                            </ul>
+                        </li>
+
+                        <!--&lt;!&ndash;darta menu&ndash;&gt;-->
+                        <!--<li>-->
+                            <!--<a><i class="fa fa-book"></i>Darta(दर्ता)<span class="fa fa-chevron-down"></span></a>-->
+                            <!--<ul class="nav child_menu">-->
+                                <!--<li><a th:href="@{~/view/darta}">Darta List(दर्ता सूची)</a></li>-->
+                                <!--<li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/darta}">Create Darta(दर्ता भर्नु होस्)</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+
+
+                        <!--Document Numbering menu-->
+                        <li sec:authorize="hasAnyAuthority('ADMIN')">
+                            <a><i class="fa fa-cog"></i>Numbering Setup<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/admin/dn/create}">Set Numbering</a></li>
+                                <li><a th:href="@{~/admin/dn/list}">View List</a></li>
+                            </ul>
+                        </li>
+
+                        <!--Darta menu-->
+                        <li>
+                            <a><i class="fa fa-book"></i>Darta(दर्ता)<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/darta}">Darta List(दर्ता सूची)</a></li>
+                                <!--darta sub menu-->
+                                <li>
+                                    <a>Create Darta(दर्ता भर्नु होस्)<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/dartaOffice}">Darta Official</a></li>
+                                        <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/dartaPerson}">Darta Personal</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!--Chalani menu-->
+                        <li>
+                            <a><i class="fa fa-book"></i>Chalani(चलानी)<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/chalani}">Chalani List(चलानी सूची)</a></li>
+                                <!--chalani sub menu-->
+                                <li>
+                                    <a>Create Chalani(चलानी भर्नु होस्)<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/chalaniOffice}">Chalani Official</a></li>
+                                        <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/chalaniPerson}">Chalani Personal</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <!--&lt;!&ndash;Chalani menu&ndash;&gt;-->
+                        <!--<li>-->
+                            <!--<a><i class="fa fa-book"></i>Chalani(चलानी)<span class="fa fa-chevron-down"></span></a>-->
+                            <!--<ul class="nav child_menu">-->
+                                <!--<li><a th:href="@{~/view/chalani}">Chalani List(चलानी सूची)</a></li>-->
+                                <!--<li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/chalani}">Create Chalani(चलानी भर्नु होस्)</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+
+                        <!--darta Distribution menu-->
+                        <li>
+                            <a><i class="fa fa-book"></i>Darta Distribution<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/dartaDist}">List</a></li>
+                                <li><a th:href="@{~/view/dartaDist/summary}">Summary</a></li>
+                                <!--<li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/dartaDist}">Create Distribution</a></li>-->
+                            </ul>
+                        </li>
+
+
+                        <!--office menu-->
+                        <li>
+                            <a><i class="fa fa-university"></i>Office(कार्यालय)<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/office}">Office List(कार्यालय सूची)</a></li>
+                                <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/office}">Create (कार्यालय भर्नु होस्)</a></li>
+                            </ul>
+                        </li>
+
+                        <!--Department menu-->
+                        <li>
+                            <a><i class="fa fa-building"></i>Department<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/department}">Department List</a></li>
+                                <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/department}">Create</a></li>
+                            </ul>
+                        </li>
+
+                        <!--Employee menu-->
+                        <li>
+                            <a><i class="fa fa-male"></i>Employee<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/employee}">Employee List</a></li>
+                                <li sec:authorize="hasAnyAuthority('ADMIN','CREATER')"><a th:href="@{~/create/employee}">Create</a></li>
+                            </ul>
+                        </li>
+
+                        <!--OLD data menu-->
+                        <li>
+                            <a><i class="fa fa-book"></i>Prev. Version Data<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a th:href="@{~/view/oldData/oldDarta}">Prev Darta</a></li>
+                                <li><a th:href="@{~/view/oldData/oldChalani}">Prev Chalani</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>              
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+                <a data-toggle="tooltip" data-placement="top" title="Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Lock">
+                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                </a>
+                <a  data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{/logout}">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                </a>
+            </div>
+            <!-- /menu footer buttons -->
+        </div>
+    </div>
+</div>
+<!-- /sidebar menu -->
