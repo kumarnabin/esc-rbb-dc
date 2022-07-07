@@ -74,19 +74,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/set/**").permitAll()
                 .antMatchers("/registration").permitAll()
 
-//                .antMatchers("/dashboard/admin/**").hasRole("ADMIN")
-//                .antMatchers("/dashboard/user/**").hasRole("USER")
-//                .anyRequest().authenticated()
-//                .and().csrf().disable().formLogin()
-//                .loginPage("/login").failureUrl("/login?error=true")
-//                .defaultSuccessUrl("/dashboard")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/").and().exceptionHandling()
-//                .accessDeniedPage("/access-denied");
-
 
                 .anyRequest().authenticated()
                 .and()

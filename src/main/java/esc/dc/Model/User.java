@@ -14,11 +14,9 @@ import java.util.List;
 @Data
 public class User {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @JsonIgnore
     private int active;
 
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
@@ -41,6 +39,7 @@ public class User {
     private List<Role> roles;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "region_id", nullable = false, referencedColumnName = "id")
     private Region region;
 

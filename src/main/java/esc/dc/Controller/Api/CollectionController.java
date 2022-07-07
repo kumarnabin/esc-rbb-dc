@@ -40,12 +40,13 @@ class CollectionController {
         return data;
     }
 
-    @GetMapping(value = {"/users/{id}"})
-    public Map users(@PathVariable int id) {
-        Map<String, Optional<User>> data = new HashMap<>();
-        data.put("data", userService.findById(id));
-        return data;
-    }
+//    @GetMapping(value = {"/users/{id}"})
+//    public Map users(@PathVariable int id) {
+//        Map<String, Optional<User>> data = new HashMap<>();
+//        data.put("data", userService.findById(id));
+//        System.out.println(userService.findById(id));
+//        return data;
+//    }
 
     @GetMapping(value = {"/regions"})
     public Map regions() {
